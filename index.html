@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing Scripts</title>
+</head>
+<body>
+    <a class="js-ch-register" href="http://dev.local:8080/registro/infogeneral/nombre">Registrate</a>
+    <a class="js-ch-register" href="http://dev.local:8080/registro/infogeneral/nombre?utm_source=Google&utm_medium=landing-page&utm_campaign=lanzamiento-chain&utm_content=boton-2">Registrate</a>
+    <a class="js-ch-register" href="http://dev.local:8080/registro/infogeneral/nombre?utm_source=Google&utm_medium=landing-page&utm_campaign=lanzamiento-chain&utm_content=boton-3">Registrate</a>
+    <a class="js-ch-register" href="http://dev.local:8080/registro/infogeneral/nombre?utm_source=Google&utm_medium=landing-page&utm_campaign=lanzamiento-chain&utm_content=boton-4">Registrate</a>
+    <script>
+        const elements = document.getElementsByClassName('js-ch-register') 
+        for (let index = 0; index < elements.length; index++) {
+                updateAttributions(elements[index])
+            
+        }
+        function updateAttributions(element){
+            if(!URL) return 
+            var url = new URL(element.href)
+            let utm_term, utm_matchtype;
+            const searchParams = new URLSearchParams(document.location.search)
+            const whereItComesFrom = document.referrer || ''
+
+            url.searchParams.append('utm_term', searchParams.get('utm_term') ||'')
+            url.searchParams.append('utm_matchtype', searchParams.get('utm_matchtype') ||'')
+            url.searchParams.append('url_dedondeviene',whereItComesFrom)
+            url.searchParams.append('url_dondeseregistra',document.location.origin + document.location.pathname)
+            url.searchParams.append('url_adondellega',document.location.origin + document.location.pathname)
+
+            element.href = url.toString()
+        }
+    </script>
+</body>
+</html>
