@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="">
+        <!-- El creador de las landings las debe poner -->
+        <input type="hidden" name="utm_source" value="Google" >
+        <input type="hidden" name="utm_medium" value="landing-page">
+        <input type="hidden" name="utm_campaign" value="lanzamiento-chain" >
+        <input type="hidden" name="utm_content" value="boton-2">
+        <!-- UTMS creadas por el script -->
+        <input type="hidden" name="utm_term" >
+        <input type="hidden" name="utm_matchtype">
+        <input type="hidden" name="url_dedondeviene">
+        <input type="hidden" name="url_dondeseregistra">
+        <input type="hidden" name="url_adondellega">
+    </form>
+    <script>
+        // La url a donde va a redirigir el formulario e.g https://app.chain.inc/registro/infogeneral/nombre
+        const CHAIN_APP_URL= 'https://app.chain.inc/registro/infogeneral/nombre'
+
+
+        const utms = ["utm_term","utm_matchtype","url_dedondeviene","url_dondeseregistra",'url_adondellega']
+        const elements = []
+        for (let index = 0; index < utms.length; index++) {
+            const results = document.getElementsByName(utms[index])
+            if(results[0]){
+                elements.push(results[0])
+            }
+        }
+
+        for (let index = 0; index < elements.length; index++) {
+            const element = elements[index];
+            console.log(element)
+            updateAttributions(element)
+            
+        }
+
+        function updateAttributions(element){
+            if(!URL) return 
+            var url = new URL(CHAIN_APP_URL)
+            let utm_term, utm_matchtype;
+            const searchParams = new URLSearchParams(document.location.search)
+            const whereItComesFrom = document.referrer || ''
+
+            switch (element.name) {
+                case 'utm_term':
+                    element.value = searchParams.get('utm_term') ||''
+                    break;
+                case 'utm_matchtype' :
+                    element.value = searchParams.get('utm_matchtype') ||''
+                    break;
+                case 'url_dedondeviene': 
+                    element.value = whereItComesFrom || ''
+                    break
+                case 'url_adondellega':
+                case 'url_dondeseregistra':
+                    element.value = document.location.origin + document.location.pathname
+                default:
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
